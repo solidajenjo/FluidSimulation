@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././src/modules/Module.h
+
+.././src/modules/ModuleRender.h
+Module.h
+.././src/modules/Module.h
+
+/home/ruben/Projects/FluidSimulation/src/Application.cpp
+Application.h
+/home/ruben/Projects/FluidSimulation/src/Application.h
+ModuleRender.h
+/home/ruben/Projects/FluidSimulation/src/ModuleRender.h
+
+/home/ruben/Projects/FluidSimulation/src/Application.h
+vector
+-
+
