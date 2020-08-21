@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "ModuleRender.h"
 #include <iostream>
@@ -33,44 +33,46 @@ bool ModuleRender::Init()
     auto framebuffer_size_callback = [](GLFWwindow* window, int width, int height){
         glViewport(0, 0, width, height);
     };
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);   
 
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return false;
-    }    
+    glewInit();
+
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
+	glEnable(GL_TEXTURE_2D);
+
+	glClearDepth(1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+
+    return true;
+}
+bool ModuleRender::PreUpdate()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    return true;
+}
+bool ModuleRender::Update()
+{
+
+    //TODO: Put this on correct place
+
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, true);
 
     return true;
 }
 
-
-bool ModuleRender::Update()
+bool ModuleRender::PostUpdate()
 {
-
-//TODO: Put this on correct place
-
-    // render loop
-    // -----------
-    // input
-    // -----
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, true);
-
-    // render
-    // ------
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
     // -------------------------------------------------------------------------------
     glfwSwapBuffers(window);
     glfwPollEvents();
-    
     return !glfwWindowShouldClose(window);
-
 }
 
 bool ModuleRender::Clean()

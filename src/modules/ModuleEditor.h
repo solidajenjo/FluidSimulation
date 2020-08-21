@@ -3,16 +3,17 @@
 
 struct GLFWwindow;
 
-class ModuleRender : public Module
+class ModuleEditor : public Module
 {
-
 public:
 
+    ModuleEditor(GLFWwindow* window) : window(window) {};
+
     bool Init() override;
-    bool PreUpdate() override;
     bool Update() override;
-    bool PostUpdate() override;
     bool Clean() override;
+
+private:
 
     GLFWwindow* window { nullptr };
 };
