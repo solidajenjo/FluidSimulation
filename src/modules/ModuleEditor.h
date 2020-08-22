@@ -8,7 +8,7 @@ class ModuleEditor : public Module
 {
 public:
 
-    ModuleEditor(GLFWwindow* window, Application* App) : window(window), Module(App) {};
+    ModuleEditor(Application* App) : Module(App) {};
     virtual ~ModuleEditor() {}
 
     bool Init() override;
@@ -17,5 +17,6 @@ public:
 
 private:
 
-    GLFWwindow* window { nullptr };
+    void DrawGrid();
+
 };

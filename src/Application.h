@@ -3,6 +3,7 @@
 class Module;
 class ModuleRender;
 class ModuleEditor;
+class ModuleInput;
 
 class Application
 {
@@ -12,11 +13,12 @@ public:
     bool Update();
     bool Clean();
 
-    ModuleRender* render { nullptr };
-    ModuleEditor* editor { nullptr };
+    ModuleRender* m_render { nullptr };
+    ModuleEditor* m_editor { nullptr };
+    ModuleInput* m_input { nullptr };
 
 private:
 
-    std::vector<Module*> modules;
+    std::vector<Module*> m_modules;
 
 };

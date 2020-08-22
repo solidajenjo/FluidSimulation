@@ -1,5 +1,5 @@
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 #include "ModuleRender.h"
 #include <iostream>
 
@@ -21,19 +21,19 @@ bool ModuleRender::Init()
 
         // glfw window creation
     // --------------------
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FluidSolver", NULL, NULL);
-    if (window == nullptr)
+    m_window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FluidSolver", NULL, NULL);
+    if (m_window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return false;
     }
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(m_window);
 
     auto framebuffer_size_callback = [](GLFWwindow* window, int width, int height){
         glViewport(0, 0, width, height);
     };
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);   
+    glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);   
 
     glewInit();
 
@@ -58,10 +58,6 @@ bool ModuleRender::PreUpdate()
 bool ModuleRender::Update()
 {
 
-    //TODO: Put this on correct place
-
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    glfwSetWindowShouldClose(window, true);
 
     return true;
 }
@@ -70,14 +66,13 @@ bool ModuleRender::PostUpdate()
 {
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
     // -------------------------------------------------------------------------------
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-    return !glfwWindowShouldClose(window);
+    glfwSwapBuffers(m_window);
+    return !glfwWindowShouldClose(m_window);
 }
 
 bool ModuleRender::Clean()
 {
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(m_window);
     glfwTerminate();
     return true;
 }

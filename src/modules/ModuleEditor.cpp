@@ -2,6 +2,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "Application.h"
+#include "ModuleRender.h"
 
 bool ModuleEditor::Init()
 {
@@ -10,7 +12,7 @@ bool ModuleEditor::Init()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(App->m_render->m_window, true);
     const char* glsl_version = "#version 130";
     ImGui_ImplOpenGL3_Init(glsl_version);
     return true;
@@ -35,4 +37,9 @@ bool ModuleEditor::Clean()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
     return true;
+}
+
+void ModuleEditor::DrawGrid()
+{
+
 }

@@ -5,24 +5,25 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW 2.0 REQUIRED)
 
 include_directories(
-        "./ThirdParty/glfw-3.3.2/include"
-        "./ThirdParty/glad/include"
-        "./ThirdParty/mathGeolib/src"
-        "./ThirdParty/imgui"
-        "./ThirdParty/imgui/examples"
-        "./src"
-        "./src/modules"
+        "ThirdParty/glfw-3.3.2/include"
+        "ThirdParty/glad/include"
+        "ThirdParty/mathGeolib/src"
+        "ThirdParty/imgui"
+        "ThirdParty/imgui/examples"
+        "src"
+        "src/modules"
+        "src/components"
         )
 
 file(GLOB source_files
         "src/*.h"
         "src/*.cpp"
         "src/modules/*.cpp"
+        "src/components/*.cpp"
         "ThirdParty/glad/src/*.c"
         "ThirdParty/imgui/*.cpp"
         "ThirdParty/imgui/examples/imgui_impl_glfw.cpp"
         "ThirdParty/imgui/examples/imgui_impl_opengl3.cpp"
-        "/usr/include/GL/glew.h"
 )
 
 add_library(glew STATIC IMPORTED GLOBAL)
@@ -42,4 +43,4 @@ target_link_libraries(FluidSolver glfw)
 target_link_libraries(FluidSolver OpenGL::GL)
 target_link_libraries(FluidSolver GLEW::GLEW)
 
-set (CMAKE_CXX_FLAGS "-g -lX11 -lGL")
+set (CMAKE_CXX_FLAGS "-g")
