@@ -4,9 +4,9 @@
 
 bool Application::Init()
 {
-    modules.push_back(render = new ModuleRender());
+    modules.push_back(render = new ModuleRender(this));
     render->Init();
-    modules.push_back(editor = new ModuleEditor(render->window));
+    modules.push_back(editor = new ModuleEditor(render->window, this));
 
     bool ok = true;
     for (auto& module : modules)
@@ -44,6 +44,7 @@ bool Application::Clean()
     for (auto& module : modules)
     {
         ok = ok && module->Clean();
+        delete module;
     }
     return ok;
 }

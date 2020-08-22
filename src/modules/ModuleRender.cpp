@@ -21,12 +21,12 @@ bool ModuleRender::Init()
 
         // glfw window creation
     // --------------------
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "FluidSolver", NULL, NULL);
+    if (window == nullptr)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        return -1;
+        return false;
     }
     glfwMakeContextCurrent(window);
 
@@ -77,6 +77,7 @@ bool ModuleRender::PostUpdate()
 
 bool ModuleRender::Clean()
 {
+    glfwDestroyWindow(window);
     glfwTerminate();
     return true;
 }
