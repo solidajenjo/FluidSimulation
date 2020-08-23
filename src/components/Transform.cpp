@@ -3,7 +3,7 @@
 
 void Transform::Update()
 {
-    m_Global.FromTRS(
+    m_Global =  m_Global.FromTRS(
         m_Position, 
         math::Quat::FromEulerXYZ(m_Rotation.x, m_Rotation.y, m_Rotation.z), 
         m_Scale);

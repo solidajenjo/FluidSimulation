@@ -1,6 +1,7 @@
 #include "ModuleInput.h"
 #include "Application.h"
 #include "ModuleRender.h"
+#include <iostream> //TODO: Create log systemS
 #include "GLFW/glfw3.h"
 
 bool ModuleInput::PreUpdate()
@@ -15,11 +16,11 @@ bool ModuleInput::PreUpdate()
 
 bool ModuleInput::IsPressed(int key) const
 {
-    return glfwGetKey(App->m_render->m_window, key) == GLFW_PRESS;
+    return glfwGetKey(App->m_render->m_window, key);
 }
 bool ModuleInput::IsReleased(int key) const
 {
-    return glfwGetKey(App->m_render->m_window, key) == GLFW_RELEASE;
+    return glfwGetKey(App->m_render->m_window, key);
 }
 bool ModuleInput::IsRepeted(int key) const
 {

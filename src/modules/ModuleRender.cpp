@@ -56,7 +56,7 @@ bool ModuleRender::Init()
         glViewport(0, 0, width, height);
         ModuleRender::ms_width = width;
         ModuleRender::ms_height = height;
-        ModuleRender::ms_AspectRatio = ms_width / ms_height;
+        ModuleRender::ms_AspectRatio = (float)ms_width / (float)ms_height;
     };
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);   
 

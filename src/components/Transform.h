@@ -14,7 +14,7 @@ public:
 
     math::float3 m_Position = math::float3::zero;
     math::float3 m_Rotation = math::float3::zero;
-    math::float3 m_Scale    = math::float3::zero;
+    math::float3 m_Scale    = math::float3::one;
 
     math::float4x4 m_Global = math::float4x4::identity;
     math::float3 m_Front = -m_Global.Col3(2);
