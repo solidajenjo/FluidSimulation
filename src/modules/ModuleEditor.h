@@ -3,6 +3,7 @@
 
 struct GLFWwindow;
 class Application;
+class Camera;
 
 class ModuleEditor : public Module
 {
@@ -15,6 +16,8 @@ public:
     bool Update() override;
     bool Clean() override;
 
+    Camera* m_Camera { nullptr };
+    
 private:
 
     void DrawGrid();
