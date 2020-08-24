@@ -21,4 +21,7 @@ private:
 
     void UpdateInput();
     void UpdateFrustum();
+
+    void Yaw(float amount);
+    void Pitch(float amount);
 };

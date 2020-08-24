@@ -13,7 +13,10 @@ bool ModuleInput::PreUpdate()
     return true; 
 }
 
-
+bool ModuleInput::IsMouseButtonDown(int button) const
+{
+    return glfwGetMouseButton(App->m_render->m_window, button);
+}
 bool ModuleInput::IsPressed(int key) const
 {
     return glfwGetKey(App->m_render->m_window, key);
@@ -22,7 +25,13 @@ bool ModuleInput::IsReleased(int key) const
 {
     return glfwGetKey(App->m_render->m_window, key);
 }
-bool ModuleInput::IsRepeted(int key) const
+
+void ModuleInput::GetXYMouseFrameDelta(float& x, float& y) 
 {
-    return glfwGetKey(App->m_render->m_window, key) == GLFW_REPEAT;
+    double xpos, ypos;
+    glfwGetCursorPos(App->m_render->m_window, &xpos, &ypos);
+    x = m_LastX - xpos;
+    y = m_LastY - ypos;
+    m_LastX = xpos;
+    m_LastY = ypos;
 }

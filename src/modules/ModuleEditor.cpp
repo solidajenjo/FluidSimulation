@@ -52,5 +52,9 @@ bool ModuleEditor::Clean()
 
 void ModuleEditor::DrawGrid()
 {
-    dd::xzSquareGrid(-100.f, 100.f, -.5f, .1f, dd::colors::Gray);
+    dd::xzSquareGrid(-100.f, 100.f, -0.001f, .1f, dd::colors::Gray);
+    dd::axisTriad(math::float4x4::identity, 10.f, 1000.f);
+    dd::line(math::float3::zero, math::float3(0.f, -1000.f, 0.f), dd::colors::Green);
+    dd::line(math::float3::zero, math::float3(-1000.f, 0.f, 0.f), dd::colors::DarkRed);
+    dd::line(math::float3::zero, math::float3(0.f, 0.f, -1000.f), dd::colors::DarkSlateBlue);
 }

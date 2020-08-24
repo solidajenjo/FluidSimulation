@@ -5,7 +5,7 @@ void Transform::Update()
 {
     m_Global =  m_Global.FromTRS(
         m_Position, 
-        math::Quat::FromEulerXYZ(m_Rotation.x, m_Rotation.y, m_Rotation.z), 
+        m_Rotation,
         m_Scale);
 
     m_Front = -m_Global.Col3(2).Normalized();

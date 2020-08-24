@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "GLFW/glfw3.h"
+#include "Math/Quat.h"
 
 void Camera::UpdateFrustum()
 {
@@ -50,6 +51,13 @@ void Camera::UpdateInput()
     {
         m_Transform->m_Position -= m_Transform->m_Front * m_Speed * mul;
     }
+    float x,y;
+    App->m_input->GetXYMouseFrameDelta(x, y);
+    if (App->m_input->IsMouseButtonDown(GLFW_MOUSE_BUTTON_2))
+    {
+        Pitch(y * 0.01f);
+        Yaw(x * 0.01f);
+    }
 }
 
 void Camera::Update()
@@ -57,4 +65,20 @@ void Camera::Update()
     m_Transform->Update();
     UpdateInput();
     UpdateFrustum();
+}
+
+void Camera::Yaw(float amount)
+{
+
+	Quat rotMat = math::Quat::RotateY(amount);
+    m_Transform->m_Rotation = rotMat.Mul(m_Transform->m_Rotation);
+
+}
+
+void Camera::Pitch(float amount)
+{
+
+	Quat rotMat = math::Quat::RotateAxisAngle(m_Frustum.WorldRight(), amount);
+	m_Transform->m_Rotation = rotMat.Mul(m_Transform->m_Rotation);
+
 }
