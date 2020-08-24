@@ -15,7 +15,7 @@ public:
     Transform* m_Transform { nullptr };
     math::Frustum m_Frustum;
 
-    float m_Speed = 0.01f;
+    float m_Speed = 0.1f;
 
 private:
 

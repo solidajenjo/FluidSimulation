@@ -15,6 +15,7 @@ public:
     bool Init() override;
     bool Update() override;
     bool Clean() override;
+    void OnImgui() override;
 
     Camera* m_Camera { nullptr };
     

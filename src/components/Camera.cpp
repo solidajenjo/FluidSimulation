@@ -56,7 +56,11 @@ void Camera::UpdateInput()
     if (App->m_input->IsMouseButtonDown(GLFW_MOUSE_BUTTON_2))
     {
         Pitch(y * 0.01f);
-        Yaw(x * 0.01f);
+        float camDot = m_Transform->m_Up.Dot(math::float3::unitY);
+        if (camDot < 0.f)
+            Yaw(-x * 0.01f);
+        else
+            Yaw(x * 0.01f);
     }
 }
 

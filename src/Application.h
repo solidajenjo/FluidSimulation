@@ -17,8 +17,6 @@ public:
     ModuleEditor* m_editor { nullptr };
     ModuleInput* m_input { nullptr };
 
-private:
-
     std::vector<Module*> m_modules;
 
 };

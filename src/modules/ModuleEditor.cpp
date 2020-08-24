@@ -19,7 +19,7 @@ bool ModuleEditor::Init()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     m_Camera = new Camera(App);
-
+    m_Camera->m_Transform->m_Position = math::float3(0.f, 10.f, -10.f);
     return true;
 }
 bool ModuleEditor::Update()
@@ -31,14 +31,27 @@ bool ModuleEditor::Update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    static bool show_demo_window = true;
-    ImGui::ShowDemoWindow(&show_demo_window);
+    ImGui::Begin("FluidSolver Control Panel");
+    
+    for (Module* module : App->m_modules)
+    {
+        module->OnImgui();
+    }
 
+    ImGui::End();
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     return true;
 }
-
+void ModuleEditor::OnImgui()
+{
+    if (ImGui::TreeNodeEx("ModuleEditor"))
+    {
+        float d = m_Camera->m_Transform->m_Up.Dot(math::float3::unitY);
+        ImGui::Text("%.3f", d);
+        ImGui::TreePop();
+    }
+}
 
 bool ModuleEditor::Clean()
 {
@@ -52,9 +65,9 @@ bool ModuleEditor::Clean()
 
 void ModuleEditor::DrawGrid()
 {
-    dd::xzSquareGrid(-100.f, 100.f, -0.001f, .1f, dd::colors::Gray);
-    dd::axisTriad(math::float4x4::identity, 10.f, 1000.f);
-    dd::line(math::float3::zero, math::float3(0.f, -1000.f, 0.f), dd::colors::Green);
-    dd::line(math::float3::zero, math::float3(-1000.f, 0.f, 0.f), dd::colors::DarkRed);
-    dd::line(math::float3::zero, math::float3(0.f, 0.f, -1000.f), dd::colors::DarkSlateBlue);
+    dd::xzSquareGrid(-100.f, 100.f, -0.001f, 1.f, dd::colors::Gray);
+    dd::axisTriad(math::float4x4::identity, 10.f, 110.f);
+    dd::line(math::float3::zero, math::float3(0.f, -100.f, 0.f), dd::colors::Green);
+    dd::line(math::float3::zero, math::float3(-100.f, 0.f, 0.f), dd::colors::DarkRed);
+    dd::line(math::float3::zero, math::float3(0.f, 0.f, -100.f), dd::colors::DarkSlateBlue);
 }
