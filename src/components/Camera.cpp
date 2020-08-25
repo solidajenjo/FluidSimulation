@@ -86,3 +86,13 @@ void Camera::Pitch(float amount)
 	m_Transform->m_Rotation = rotMat.Mul(m_Transform->m_Rotation);
 
 }
+
+void Camera::LookAt(const math::float3& target)
+{
+    m_Transform->m_Rotation = Quat::LookAt(
+        math::float3::unitZ,
+        target,
+        math::float3::unitY,
+        math::float3::unitY
+    );
+}

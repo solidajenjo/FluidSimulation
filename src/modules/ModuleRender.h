@@ -4,6 +4,7 @@
 
 struct GLFWwindow;
 class Application;
+class Mesh;
 
 class ModuleRender : public Module
 {
@@ -22,6 +23,7 @@ public:
     void SetViewProjectionUniform(const math::float4x4& viewProj);
 
     GLFWwindow* m_window { nullptr };
+    Mesh* m_Mesh { nullptr };
 
     int shaderProgram;unsigned int VBO, VAO;
     static int ms_width, ms_height;

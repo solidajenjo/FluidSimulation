@@ -17,6 +17,8 @@ public:
 
     float m_Speed = 0.1f;
 
+    void LookAt(const math::float3& target);
+
 private:
 
     void UpdateInput();

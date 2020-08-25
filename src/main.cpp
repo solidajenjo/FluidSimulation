@@ -2,11 +2,12 @@
 int main()
 {
     Application App;
-    App.Init();
+    if (App.Init())
+    {
+        while (App.Update()) {}
+        App.Clean();
+    }
 
-    while (App.Update()) {}
-
-    App.Clean();
 }
 
 

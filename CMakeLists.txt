@@ -20,7 +20,6 @@ include_directories(
         )
 
 file(GLOB source_files
-        "src/*.h"
         "src/*.cpp"
         "src/modules/*.cpp"
         "src/components/*.cpp"

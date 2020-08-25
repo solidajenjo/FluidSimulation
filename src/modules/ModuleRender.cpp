@@ -1,6 +1,12 @@
 #include <GL/glew.h>
 #include "GLFW/glfw3.h"
 #include "ModuleRender.h"
+#include "Math/Quat.h"
+#include "Application.h"
+#include "Camera.h"
+#include "Mesh.h"
+#include "ModuleEditor.h"
+#include "OBJ_Loader.h"
 #include <iostream>
 
 int ModuleRender::ms_width, ModuleRender::ms_height;
@@ -15,16 +21,30 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
-    "uniform mat4 viewProj;"
+    "layout (location = 1) in vec3 aNormal;\n"
+    "uniform mat4 viewProj;\n"
+    "uniform mat4 model;\n"
+    "out vec3 Normal;\n"
+    "out vec3 FragPos;\n"
+    "\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = viewProj * vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   gl_Position = viewProj * model * vec4(aPos, 1.0);\n"
+    "   Normal = mat3(transpose(inverse(model))) * aNormal;\n"  
+    "   FragPos = vec3(model * vec4(aPos, 1.0));\n"
     "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
     "out vec4 FragColor;\n"
+    "in vec3 Normal;"
+    "in vec3 FragPos;"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "   vec3 norm = normalize(Normal);\n"
+    "   vec3 lightDir = normalize(vec3(10.f, 10.f, 10.f) - FragPos);\n"
+    "   float diff = max(dot(norm, lightDir), 0.0);\n"
+    "   vec3 diffuse = diff * vec3(1.f, 1.f, 1.f);\n"
+    "   vec3 result = (0.2f + diffuse) * vec3(0.f, 0.f, 1.f);\n"
+    "   FragColor = vec4(result, 1.0);\n"
     "}\n\0";
 
 
@@ -89,6 +109,7 @@ bool ModuleRender::Init()
     {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+        return false;
     }
     // fragment shader
     int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -100,6 +121,7 @@ bool ModuleRender::Init()
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+        return false;
     }
     // link shaders
     shaderProgram = glCreateProgram();
@@ -111,35 +133,31 @@ bool ModuleRender::Init()
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        return false;
     }
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-      // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
-    float vertices[] = {
-        -0.5f, -0.5f, -3.0f, // left  
-         0.5f, -0.5f, -3.0f, // right 
-         0.0f,  0.5f, -3.0f  // top   
-    }; 
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
-
+    m_Mesh = new Mesh(App);
+    objl::Loader loader;
+    if (loader.LoadFile("test.obj"))
+    {
+        for (auto v : loader.LoadedVertices)
+        {
+            m_Mesh->m_Vertices.push_back(math::float3(v.Position.X, v.Position.Y, v.Position.Z));
+            m_Mesh->m_Normals.push_back(math::float3(v.Normal.X, v.Normal.Y, v.Normal.Z));
+        }
+        for (auto i : loader.LoadedIndices)
+        {
+            m_Mesh->m_Indices.push_back(i);
+        }
+        m_Mesh->BuildTrisInfo();
+        m_Mesh->LoadToGPU();
+    }
+    else
+    {
+        return false;
+    }
     return true;
 }
 bool ModuleRender::PreUpdate()
@@ -150,8 +168,8 @@ bool ModuleRender::PreUpdate()
 bool ModuleRender::Update()
 {
     glUseProgram(shaderProgram);
-    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    SetViewProjectionUniform(App->m_editor->m_Camera->m_Frustum.ComputeViewProjMatrix());
+    m_Mesh->Draw(shaderProgram);
 
     return true;
 }
@@ -174,5 +192,5 @@ bool ModuleRender::Clean()
 void ModuleRender::SetViewProjectionUniform(const math::float4x4& viewProj)
 {
     const unsigned int viewProjLoc = glGetUniformLocation(shaderProgram, "viewProj");
-    glUniformMatrix4fv(viewProjLoc, 1, GL_FALSE, viewProj.ptr());
+    glUniformMatrix4fv(viewProjLoc, 1, GL_TRUE, viewProj.ptr());
 }

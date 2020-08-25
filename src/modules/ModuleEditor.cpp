@@ -19,13 +19,13 @@ bool ModuleEditor::Init()
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     m_Camera = new Camera(App);
-    m_Camera->m_Transform->m_Position = math::float3(0.f, 10.f, -10.f);
+    m_Camera->m_Transform->m_Position = math::float3(0.f, 5.f, 10.f);
+    m_Camera->LookAt(m_Camera->m_Transform->m_Position);
     return true;
 }
 bool ModuleEditor::Update()
 {
     m_Camera->Update();
-    App->m_render->SetViewProjectionUniform(m_Camera->m_Frustum.ComputeViewProjMatrix());
     DrawGrid();
 
     ImGui_ImplOpenGL3_NewFrame();
