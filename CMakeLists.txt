@@ -12,6 +12,7 @@ include_directories(
         "ThirdParty/mathGeolib/src"
         "ThirdParty/imgui"
         "ThirdParty/imgui/examples"
+        "ThirdParty/OBJ-Loader/Source"
         "ThirdParty/debug"
         "src"
         "src/modules"
