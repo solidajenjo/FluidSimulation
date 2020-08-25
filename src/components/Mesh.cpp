@@ -61,6 +61,11 @@ void Mesh::BuildTrisInfo()
         tri.a = m_Vertices[m_Indices[i]];
         tri.b = m_Vertices[m_Indices[i + 1]];
         tri.c = m_Vertices[m_Indices[i + 2]];
-        m_Triangles.push_back(tri);
+
+        math::float3 n = 
+            m_Normals[m_Indices[i]] +
+            m_Normals[m_Indices[i + 1]] +
+            m_Normals[m_Indices[i + 2]];
+        m_Triangles.emplace_back(tri, n.Normalized());
     }
 }

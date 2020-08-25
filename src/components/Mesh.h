@@ -6,9 +6,17 @@
 
 class Transform;
 
+struct TriangleData
+{
+    TriangleData(const math::Triangle& triangle, const math::float3& normal) : 
+        m_Triangle(triangle) , m_Normal(normal) {}
+    math::Triangle m_Triangle;
+    math::float3 m_Normal;
+};
+
 typedef std::vector<math::float3> t_F3Vec;
 typedef std::vector<uint> t_UintVec;
-typedef std::vector<math::Triangle> t_TrisVec;
+typedef std::vector<TriangleData> t_TrisVec;
 
 class Mesh : public Component
 {
