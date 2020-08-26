@@ -598,7 +598,7 @@ bool ModuleDebugDraw::Update()
     assert(implementation);
     implementation->width     = ModuleRender::ms_width;
     implementation->height    = ModuleRender::ms_height;
-    implementation->mvpMatrix = App->m_editor->m_Camera->m_Frustum.ComputeViewProjMatrix();
+    implementation->mvpMatrix = App->m_Editor->m_Camera->m_Frustum.ComputeViewProjMatrix();
     dd::flush();
     return true;
 }

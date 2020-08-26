@@ -17,12 +17,14 @@ include_directories(
         "src"
         "src/modules"
         "src/components"
+        "src/physics"
         )
 
 file(GLOB source_files
         "src/*.cpp"
         "src/modules/*.cpp"
         "src/components/*.cpp"
+        "src/physics/*.cpp"
         "ThirdParty/glad/src/*.c"
         "ThirdParty/imgui/*.cpp"
         "ThirdParty/imgui/examples/imgui_impl_glfw.cpp"

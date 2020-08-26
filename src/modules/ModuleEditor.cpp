@@ -14,7 +14,7 @@ bool ModuleEditor::Init()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     ImGui::StyleColorsDark();
 
-    ImGui_ImplGlfw_InitForOpenGL(App->m_render->m_window, true);
+    ImGui_ImplGlfw_InitForOpenGL(App->m_Render->m_window, true);
     const char* glsl_version = "#version 330";
     ImGui_ImplOpenGL3_Init(glsl_version);
 
@@ -33,7 +33,7 @@ bool ModuleEditor::Update()
     ImGui::NewFrame();
     ImGui::Begin("FluidSolver Control Panel");
     
-    for (Module* module : App->m_modules)
+    for (Module* module : App->m_Modules)
     {
         module->OnImgui();
     }

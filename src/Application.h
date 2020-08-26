@@ -4,6 +4,7 @@ class Module;
 class ModuleRender;
 class ModuleEditor;
 class ModuleInput;
+class ModulePhysics;
 
 class Application
 {
@@ -13,10 +14,11 @@ public:
     bool Update();
     bool Clean();
 
-    ModuleRender* m_render { nullptr };
-    ModuleEditor* m_editor { nullptr };
-    ModuleInput* m_input { nullptr };
+    ModuleRender* m_Render { nullptr };
+    ModuleEditor* m_Editor { nullptr };
+    ModuleInput* m_Input { nullptr };
+    ModulePhysics* m_Physics { nullptr };
 
-    std::vector<Module*> m_modules;
+    std::vector<Module*> m_Modules;
 
 };

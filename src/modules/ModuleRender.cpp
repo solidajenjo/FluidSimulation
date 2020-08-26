@@ -16,8 +16,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1366;
+const unsigned int SCR_HEIGHT = 768;
 
 const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
@@ -93,6 +93,7 @@ bool ModuleRender::Init()
 
 	glClearDepth(1.0f);
 	glClearColor(0.f, 0.f, 0.f, 1.f);
+    glViewport(0, 0, ms_width, ms_height);
 
 
     // build and compile our shader program
@@ -168,7 +169,7 @@ bool ModuleRender::PreUpdate()
 bool ModuleRender::Update()
 {
     glUseProgram(shaderProgram);
-    SetViewProjectionUniform(App->m_editor->m_Camera->m_Frustum.ComputeViewProjMatrix());
+    SetViewProjectionUniform(App->m_Editor->m_Camera->m_Frustum.ComputeViewProjMatrix());
     m_Mesh->Draw(shaderProgram);
 
     return true;

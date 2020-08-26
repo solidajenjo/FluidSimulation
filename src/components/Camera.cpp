@@ -23,37 +23,37 @@ void Camera::UpdateFrustum()
 void Camera::UpdateInput()
 {
     float mul = 1.f;
-    if (App->m_input->IsPressed(GLFW_KEY_LEFT_SHIFT))
+    if (App->m_Input->IsPressed(GLFW_KEY_LEFT_SHIFT))
     {
         mul = 2.f;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_D))
+    if (App->m_Input->IsPressed(GLFW_KEY_D))
     {
         m_Transform->m_Position += m_Transform->m_Right * m_Speed * mul;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_A))
+    if (App->m_Input->IsPressed(GLFW_KEY_A))
     {
         m_Transform->m_Position -= m_Transform->m_Right * m_Speed * mul;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_Q))
+    if (App->m_Input->IsPressed(GLFW_KEY_Q))
     {
         m_Transform->m_Position += m_Transform->m_Up * m_Speed * mul;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_E))
+    if (App->m_Input->IsPressed(GLFW_KEY_E))
     {
         m_Transform->m_Position -= m_Transform->m_Up * m_Speed * mul;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_W))
+    if (App->m_Input->IsPressed(GLFW_KEY_W))
     {
         m_Transform->m_Position += m_Transform->m_Front * m_Speed * mul;
     }
-    if (App->m_input->IsPressed(GLFW_KEY_S))
+    if (App->m_Input->IsPressed(GLFW_KEY_S))
     {
         m_Transform->m_Position -= m_Transform->m_Front * m_Speed * mul;
     }
     float x,y;
-    App->m_input->GetXYMouseFrameDelta(x, y);
-    if (App->m_input->IsMouseButtonDown(GLFW_MOUSE_BUTTON_2))
+    App->m_Input->GetXYMouseFrameDelta(x, y);
+    if (App->m_Input->IsMouseButtonDown(GLFW_MOUSE_BUTTON_2))
     {
         Pitch(y * 0.01f);
         float camDot = m_Transform->m_Up.Dot(math::float3::unitY);
