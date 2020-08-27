@@ -91,7 +91,7 @@ void Camera::LookAt(const math::float3& target)
 {
     m_Transform->m_Rotation = Quat::LookAt(
         math::float3::unitZ,
-        target,
+        target.Normalized(),
         math::float3::unitY,
         math::float3::unitY
     );

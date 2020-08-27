@@ -52,19 +52,25 @@ if (!WINDOWS)
 	set_target_properties(mathGeolib PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/ThirdParty/mathGeolib/lib/libMathGeoLib.a )
 
 #	target_link_libraries(FluidSolver GLEW::GLEW)
+	target_link_libraries(FluidSolver mathGeolib)
 
 else()
 
-	add_library(mathGeolib STATIC IMPORTED GLOBAL)
-
-	if (CMAKE_BUILD_TYPE EQUAL Release)
-		set_target_properties(mathGeolib PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/ThirdParty/mathGeolib/lib/Release/MathGeoLib.lib )
+	target_link_libraries(FluidSolver mathGeolib)
+	if (CMAKE_BUILD_TYPE STREQUAL "Release")
+		add_library(mathGeolib STATIC IMPORTED GLOBAL)
+		message(STATUS "Setting up optimization flags.")
+		set_target_properties(mathGeolib PROPERTIES IMPORTED_LOCATION  ${CMAKE_SOURCE_DIR}/ThirdParty/mathGeolib/lib/Release/MathGeoLib.lib)
+		target_compile_options(FluidSolver PRIVATE "/MD")   
+		target_compile_options(FluidSolver PRIVATE "/Zi")   
+		target_compile_options(FluidSolver PRIVATE "/Ob0")   
+		target_compile_options(FluidSolver PRIVATE "/Od")   
+		target_compile_options(FluidSolver PRIVATE "/RTC1") 
 	else()
+		add_library(mathGeolib STATIC IMPORTED GLOBAL)
 		set_target_properties(mathGeolib PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/ThirdParty/mathGeolib/lib/Debug/MathGeoLib.lib )
 	endif()
 
-
-	
 endif()
 
 	set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
@@ -75,7 +81,6 @@ endif()
 
 	target_link_libraries(FluidSolver glfw)
 	target_link_libraries(FluidSolver OpenGL::GL)
-	target_link_libraries(FluidSolver mathGeolib)
 
 if (!WINDOWS)
 	set(CMAKE_CXX_FLAGS "-Wall -Wextra")
