@@ -14,7 +14,7 @@ struct Node
 	void Flush();
 
 	unsigned m_Depth = 0u;
-	AABB* m_AABB { nullptr };
+	math::AABB* m_AABB { nullptr };
 	std::vector<const TriangleData*> m_Bucket;
 	std::vector<Node*> m_LowerNodes;
 };
@@ -27,7 +27,7 @@ public:
 
     Node* m_Root { nullptr };
 
-    void Calculate(const AABB& rootAABB, const std::vector<Mesh*>& meshes, uint maxDepth);
-
+    void Calculate(const math::AABB& rootAABB, const std::vector<Mesh*>& meshes, uint maxDepth);
+	std::vector<const TriangleData*> GetPossibleCollisions(const math::AABB* aabb) const;
 	void DebugDraw();
 };

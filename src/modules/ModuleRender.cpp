@@ -43,7 +43,7 @@ const char *fragmentShaderSource = "#version 330 core\n"
     "   vec3 lightDir = normalize(vec3(10.f, 10.f, 10.f) - FragPos);\n"
     "   float diff = max(dot(norm, lightDir), 0.0);\n"
     "   vec3 diffuse = diff * vec3(1.f, 1.f, 1.f);\n"
-    "   vec3 result = (0.2f + diffuse) * vec3(0.f, 0.f, 1.f);\n"
+    "   vec3 result = (0.2f + diffuse) * vec3(0.8f, 0.8f, 1.f);\n"
     "   FragColor = vec4(result, 1.0);\n"
     "}\n\0";
 
@@ -79,7 +79,7 @@ bool ModuleRender::Init()
         ModuleRender::ms_AspectRatio = (float)ms_width / (float)ms_height;
     };
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);   
-
+    glfwSwapInterval( 0 );
     glewInit();
 
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);

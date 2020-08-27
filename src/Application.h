@@ -21,4 +21,6 @@ public:
 
     std::vector<Module*> m_Modules;
 
+    float m_TotalTime = 0.f;
+    float m_DeltaTime = 0.f;
 };

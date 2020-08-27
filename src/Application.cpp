@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 #include "ModuleDebugDraw.h"
 #include "ModulePhysics.h"
+#include "GLFW/glfw3.h"
 
 bool Application::Init()
 {
@@ -27,6 +28,8 @@ bool Application::Init()
 
 bool Application::Update()
 {
+    m_DeltaTime = glfwGetTime() - m_TotalTime;
+    m_TotalTime = glfwGetTime();
     bool ok = true;
     for (auto& module : m_Modules)
     {

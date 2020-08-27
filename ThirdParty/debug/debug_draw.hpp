@@ -2643,7 +2643,7 @@ void point(DD_EXPLICIT_CONTEXT_ONLY(ContextHandle ctx,) ddVec3_In pos, ddVec3_In
 
     if (DD_CONTEXT->debugPointsCount == DEBUG_DRAW_MAX_POINTS)
     {
-        DEBUG_DRAW_OVERFLOWED("DEBUG_DRAW_MAX_POINTS limit reached! Dropping further debug point draws.");
+        //DEBUG_DRAW_OVERFLOWED("DEBUG_DRAW_MAX_POINTS limit reached! Dropping further debug point draws.");
         return;
     }
 
@@ -2666,7 +2666,7 @@ void line(DD_EXPLICIT_CONTEXT_ONLY(ContextHandle ctx,) ddVec3_In from, ddVec3_In
 
     if (DD_CONTEXT->debugLinesCount == DEBUG_DRAW_MAX_LINES)
     {
-        DEBUG_DRAW_OVERFLOWED("DEBUG_DRAW_MAX_LINES limit reached! Dropping further debug line draws.");
+        //DEBUG_DRAW_OVERFLOWED("DEBUG_DRAW_MAX_LINES limit reached! Dropping further debug line draws.");
         return;
     }
 

@@ -9,6 +9,7 @@ class Transform : public Component
 
 public:
 
+    Transform() : Component(nullptr) {}
     Transform(Application* App) : Component(App) {}
 
     void Update() override;

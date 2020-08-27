@@ -146,3 +146,38 @@ void Octree::DebugDraw()
         }
     }
 }
+
+std::vector<const TriangleData*> Octree::GetPossibleCollisions(const math::AABB* aabb) const
+{
+    std::queue<Node*> Q;
+    std::vector<const TriangleData*> ret; //TODO pass as reference | reserve big size
+    ret.reserve(1000);
+    if (!m_Root)
+    {
+        return ret;
+    }
+    
+    Q.push(m_Root);
+
+    while (!Q.empty())
+    {
+        Node* currentNode = Q.front();
+        Q.pop();
+    
+        if (!currentNode->m_Bucket.empty() && currentNode->m_LowerNodes.size() == 0)
+        {
+            if (currentNode->m_AABB->Intersects(*aabb))
+            {
+                for (const TriangleData* triData : currentNode->m_Bucket)
+                    ret.push_back(triData);
+            }
+        }        
+        
+        for (Node* newNode : currentNode->m_LowerNodes)
+        {
+            if (newNode->m_AABB->Intersects(*aabb))
+                Q.push(newNode);
+        }
+    }
+    return ret;
+}
