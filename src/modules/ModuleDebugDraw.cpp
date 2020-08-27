@@ -7,7 +7,7 @@
 #define DEBUG_DRAW_IMPLEMENTATION 1
 #include "debugdraw.h" // Debug Draw API. Notice that we need the DEBUG_DRAW_IMPLEMENTATION macro here!
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <assert.h>
 
 class DDRenderInterfaceCoreGL final

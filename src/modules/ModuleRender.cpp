@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "ModuleRender.h"
 #include "Math/Quat.h"
@@ -13,7 +13,6 @@ int ModuleRender::ms_width, ModuleRender::ms_height;
 float ModuleRender::ms_AspectRatio;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 1366;
@@ -80,9 +79,14 @@ bool ModuleRender::Init()
     };
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);   
     glfwSwapInterval( 0 );
-    glewInit();
+	
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
+		return false;
+	}
 
-	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     

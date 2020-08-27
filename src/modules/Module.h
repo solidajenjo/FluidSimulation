@@ -2,6 +2,8 @@
 
 class Application;
 
+typedef unsigned uint;
+
 class Module
 {
 public:

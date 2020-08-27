@@ -5,6 +5,8 @@
 struct TriangleData;
 class Mesh;
 
+typedef unsigned uint;
+
 struct Node
 {
     Node();
